@@ -199,24 +199,29 @@ export class CreateinvoiceComponent {
   }
 
   get productsubTotal(): number {
-    return this.filteredPurchaseList.reduce((total: number, row: any) => total + row.shellAmount, 0);
+    const total = this.filteredPurchaseList.reduce((total: number, row: any) => 
+      total + row.shellAmount, 0);
+    return Math.round(total * 100) / 100;
   }
   
   get totalDiscount(): number {
-    return this.filteredPurchaseList.reduce((total: number, row: any, i: number) => {
+    const total = this.filteredPurchaseList.reduce((total: number, row: any, i: number) => {
       const discountPercent = this.discounts[i] || 0;
       const discountAmount = (discountPercent / 100) * row.shellAmount;
       return total + discountAmount;
     }, 0);
+    return Math.round(total * 100) / 100;
   }
   
   get productgrandTotal(): number {
-    return this.filteredPurchaseList.reduce((total: number, row: any, i: number) => {
+    const total = this.filteredPurchaseList.reduce((total: number, row: any, i: number) => {
       const discountPercent = this.discounts[i] || 0;
       const discountAmount = (discountPercent / 100) * row.shellAmount;
       return total + (row.shellAmount - discountAmount);
     }, 0);
+    return Math.round(total * 100) / 100;
   }
+  
   
 
 

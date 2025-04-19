@@ -76,23 +76,28 @@ export class InvoiceViewComponent {
   }
 
   get productsubTotal(): number {
-    return this.filteredPurchaseList.reduce((total: number, row: any) => total + (row.shellAmount || 0), 0);
+    const total = this.filteredPurchaseList.reduce((total: number, row: any) => 
+      total + (row.shellAmount || 0), 0);
+    return Math.round(total * 100) / 100;
   }
-
+  
   get totalDiscount(): number {
-    return this.filteredPurchaseList.reduce((total: number, row: any) => {
+    const total = this.filteredPurchaseList.reduce((total: number, row: any) => {
       const discountPercent = row.shellDiscount || 0;
       return total + ((discountPercent / 100) * row.shellAmount);
     }, 0);
+    return Math.round(total * 100) / 100;
   }
-
+  
   get productgrandTotal(): number {
-    return this.filteredPurchaseList.reduce((total: number, row: any) => {
+    const total = this.filteredPurchaseList.reduce((total: number, row: any) => {
       const discountPercent = row.shellDiscount || 0;
       const discountAmount = (discountPercent / 100) * row.shellAmount;
       return total + (row.shellAmount - discountAmount);
     }, 0);
+    return Math.round(total * 100) / 100;
   }
+  
 
   sendWhatsAppWithPDF() {
     const element = document.getElementById('invoiceToPDF');
